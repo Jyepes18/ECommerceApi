@@ -1,6 +1,4 @@
-﻿using System.Security.Claims;
-using System.Threading.Tasks;
-using ECommerce.Application.DTOs;
+﻿using ECommerce.Application.DTOs;
 using ECommerce.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +7,7 @@ namespace E_Commerce.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class UserController : ControllerBase
+public class UserController : ControllerApi
 {
     private readonly IUserService _userService;
     
@@ -31,9 +29,7 @@ public class UserController : ControllerBase
     [Route("update")]
     public async Task<IActionResult> UpdateAsync([FromBody] RegisterUserDto user)
     {
-        int userId = Convert.ToInt16(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-        
-        var result = await _userService.UpdateUserAsync(userId, user);
+        var result = await _userService.UpdateUserAsync(GetUserId(), user);
         return Ok(result);
     }
     
@@ -42,9 +38,7 @@ public class UserController : ControllerBase
     [Route("delete")]
     public async Task<IActionResult> DeleteAsync()
     {
-        int userId = Convert.ToInt16(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-
-        var result = await _userService.DelteUserAsync(userId);
+        var result = await _userService.DelteUserAsync(GetUserId());
         return Ok(result);
     }
 
@@ -53,9 +47,7 @@ public class UserController : ControllerBase
     [Route("get")]
     public async Task<IActionResult> GetUserById()
     {
-        int userId = Convert.ToInt16(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-        
-        var result = await _userService.GetUserAsync(userId);
+        var result = await _userService.GetUserAsync(GetUserId());
         return Ok(result);
     }
 
