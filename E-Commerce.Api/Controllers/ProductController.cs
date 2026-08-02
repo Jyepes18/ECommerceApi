@@ -30,6 +30,8 @@ public class ProductController : ControllerApi
     public async Task<IActionResult> GetAllByUser([FromQuery] int page, [FromQuery] int pageSize, [FromQuery] ProductFilter productFilter)
     {
 
+        if (page < 0 || pageSize < 0) return BadRequest("Page or PageSize can´t be less that 0");
+        
         var result = await _productService.GetAllByUser(GetUserId(), page, pageSize, productFilter);
         return Ok(new { result.Value.Item1, result.Value.Total, result.Status });
     }
@@ -46,7 +48,7 @@ public class ProductController : ControllerApi
     [Route("delete/{id}")]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
-        var result = await _productService.Delete(id);
+        var result = await _productService.Delete(id, GetUserId());
         return Ok(result);
     }
     

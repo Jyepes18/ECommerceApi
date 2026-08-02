@@ -70,8 +70,11 @@ public class ProductRepository : IProductRepository
         return await _context.SaveChangesAsync();
     }
 
-    public async Task<int> Delete(int id)
+    public async Task<int> Delete(int id, int userId)
     {
-        return await _context.product.Where(x => x.Id == id).ExecuteDeleteAsync();
+        return await _context.product.
+            Where(x => x.Id == id && x.UserId == userId).
+            ExecuteDeleteAsync();
+        
     }
 }

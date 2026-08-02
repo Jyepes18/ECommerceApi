@@ -56,7 +56,7 @@ public class ProductService : IProductService
         return Result<string, int>.Success("Product updated success", 200);
     }
 
-    public async Task<Result<string, int>> Delete(int id)
+    public async Task<Result<string, int>> Delete(int id, int userId)
     {
         int deleteProduct = await _productRepository.Delete(id);
 

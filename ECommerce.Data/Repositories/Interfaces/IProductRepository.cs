@@ -10,5 +10,5 @@ public interface IProductRepository
         string? description, decimal? price);
 
     Task<int> Update(int id, ProductEntity productEntity, int userId);
-    Task<int> Delete(int id);
+    Task<int> Delete(int id, int userId);
 }

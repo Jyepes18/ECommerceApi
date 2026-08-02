@@ -8,8 +8,9 @@ public class ControllerApi : ControllerBase
 
     protected int GetUserId()
     {
-        int userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-        if (userId == null) throw new Exception("Error to get user id");
+        var calim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (!int.TryParse(calim, out var userId)) throw new Exception("Error to get user id");
+        
         return userId;
     }
 }

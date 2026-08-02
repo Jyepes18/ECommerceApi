@@ -11,5 +11,5 @@ public interface IProductService
         ProductFilter productFilter);
 
     Task<Result<string, int>> Update(int id, Product product, int userId);
-    Task<Result<string, int>> Delete(int id);
+    Task<Result<string, int>> Delete(int id, int userId);
 }
