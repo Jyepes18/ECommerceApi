@@ -12,4 +12,7 @@ public interface IProductService
 
     Task<Result<string, int>> Update(int id, Product product, int userId);
     Task<Result<string, int>> Delete(int id, int userId);
+
+    Task<Result<(ICollection<ProductEntity>, int Total), int>> GetAll(int userId, int page,
+        int pageSize, ProductFilter productFilter);
 }

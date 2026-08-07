@@ -64,4 +64,13 @@ public class ProductService : IProductService
 
         return Result<string, int>.Failure("Error to deleted product", 404);
     }
+    
+    public async Task<Result<(ICollection<ProductEntity>, int Total), int>> GetAll(int userId, int page,
+        int pageSize, ProductFilter productFilter)
+    {
+        var products = await _productRepository.GetAll(userId, page, pageSize, productFilter.Name,
+            productFilter.Description, productFilter.Price);
+
+        return Result<(ICollection<ProductEntity>, int Total), int>.Success((products.Item1, products.Total), 200);
+    }
 }
