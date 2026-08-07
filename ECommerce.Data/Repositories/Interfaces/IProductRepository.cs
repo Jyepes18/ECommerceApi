@@ -11,4 +11,10 @@ public interface IProductRepository
 
     Task<int> Update(int id, ProductEntity productEntity, int userId);
     Task<int> Delete(int id, int userId);
+
+    Task<(ICollection<ProductEntity>, int Total)> GetAll(int userId, int page, int pageSize, string? name,
+        string? description, decimal? price);
+
+    Task<int> GetStockProduct(int productId);
+    Task<int> UpdateQuantityProduct(int newQunatity, int productId);
 }

@@ -7,7 +7,6 @@ namespace E_Commerce.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize(Roles = "ADMIN")]
 public class ProductController : ControllerApi
 {
     private readonly IProductService _productService;
@@ -18,6 +17,7 @@ public class ProductController : ControllerApi
     }
     
     [HttpPost]
+    [Authorize(Roles = "ADMIN")]
     [Route("create")]
     public async Task<IActionResult> Create([FromBody] Product product)
     {
@@ -26,6 +26,7 @@ public class ProductController : ControllerApi
     }
 
     [HttpGet]
+    [Authorize(Roles = "ADMIN")]
     [Route("get-all-products-by-user")]
     public async Task<IActionResult> GetAllByUser([FromQuery] int page, [FromQuery] int pageSize, [FromQuery] ProductFilter productFilter)
     {
@@ -37,6 +38,7 @@ public class ProductController : ControllerApi
     }
 
     [HttpPut]
+    [Authorize(Roles = "ADMIN")]
     [Route("update/{id}")]
     public async Task<IActionResult> Update([FromRoute] int id, Product product)
     {
@@ -45,6 +47,7 @@ public class ProductController : ControllerApi
     }
     
     [HttpDelete]
+    [Authorize(Roles = "ADMIN")]
     [Route("delete/{id}")]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
@@ -52,4 +55,15 @@ public class ProductController : ControllerApi
         return Ok(result);
     }
     
+    [HttpGet]
+    [Authorize(Roles = "USER")]
+    [Route("get-all-products")]
+    public async Task<IActionResult> GetAll([FromQuery] int page, [FromQuery] int pageSize, [FromQuery] ProductFilter productFilter)
+    {
+
+        if (page < 0 || pageSize < 0) return BadRequest("Page or PageSize can´t be less that 0");
+        
+        var result = await _productService.GetAll(GetUserId(), page, pageSize, productFilter);
+        return Ok(new { result.Value.Item1, result.Value.Total, result.Status });
+    }
 }
